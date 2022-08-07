@@ -5,3 +5,10 @@ class User < ApplicationRecord
 
     has_many :recipes
 end
+
+# // "eslintConfig": {
+# //   "extends": [
+# //     "react-app",
+# //     "react-app/jest"
+# //   ]
+# // },
