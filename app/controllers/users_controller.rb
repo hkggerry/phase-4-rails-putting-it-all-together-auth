@@ -1,4 +1,7 @@
+require "pry"
+
 class UsersController < ApplicationController
+
     def show
         user = User.find_by(id: session[:user_id])
         if user
@@ -11,9 +14,11 @@ class UsersController < ApplicationController
     def create
         user = User.create(user_params)
         if user.valid?
+          session[:user_id] = user.id
           render json: user, status: :created
         else
-          render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+          binding.pry
+          render json: { errors: [user.errors.errors] }, status: :unprocessable_entity, code: 422
         end
       end
 
@@ -21,6 +26,6 @@ class UsersController < ApplicationController
     private
     
     def user_params
-        params.permit(:username, :password_digest, :image_url, :bio)
+        params.permit(:username, :password, :image_url, :bio)
     end
 end
